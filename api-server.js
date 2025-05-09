@@ -20,8 +20,11 @@ app.use(cors({
 }));
 
 // Get Employee Controller and use
-const apiRoutes = require('./routes/customerRoutes');
-app.use('/api', apiRoutes);
+const customerRoutes = require('./routes/customerRoutes');
+app.use('/api', customerRoutes);
+
+const userRoutes = require('./routes/userRoutes');
+app.use('/api', userRoutes);
 
 // Listen to port 8000 for incoming requests
 app.listen(PORT, () => {
