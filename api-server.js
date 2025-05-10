@@ -20,8 +20,8 @@ app.use(cors({
 }));
 
 // Get Employee Controller and use
-const customerRoutes = require('./routes/customerRoutes');
-app.use('/api', customerRoutes);
+const profileRoutes = require('./routes/profileRoutes');
+app.use('/api', profileRoutes);
 
 const userRoutes = require('./routes/userRoutes');
 app.use('/api', userRoutes);
