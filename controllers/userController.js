@@ -1,5 +1,13 @@
 // import mongoose and userModel
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+const JWT_SECRET_CODE = process.env.JWT_SECRET_CODE;
+
 const User = require('../models/User');
 
 const register = async (req, res) => {
@@ -15,4 +23,28 @@ const register = async (req, res) => {
     }
 }
 
-module.exports = { register }
+const login = async (req, res) => {
+    const { email, password } = req.body;
+    const signInUser = await User.findOne({email});
+
+    if (!signInUser)
+        return res.status(401).json({error: 'User not found'});
+
+    const passwordMatch = await bcrypt.compare(password, signInUser.password);
+
+    if (!passwordMatch)
+        return res.status(401).json({error: 'Invalid Credentials'});
+
+    const token = jwt.sign(
+        {
+            email, 
+            id: signInUser._id
+        },
+        JWT_SECRET_CODE,
+        { expiresIn: '1h' }
+    );
+    
+    res.json({token});
+}   
+
+module.exports = { register, login }
