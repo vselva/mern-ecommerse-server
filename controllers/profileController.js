@@ -4,8 +4,37 @@ const User = require('../models/User');
 
 // get list of profiles
 const getProfiles = async (req, res) => {
-    const profileList = await Profile.find().limit(5);
-    res.json(profileList);
+    try {
+        const profileList = await User.aggregate([
+            {
+                $lookup: {
+                    from: "profiles",
+                    localField: "profile",
+                    foreignField: "_id",
+                    as: "userProfile"
+                }
+            },
+            {
+                $unwind: "$userProfile"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    email: 1, 
+                    name: "$userProfile.name",
+                    gender: "$userProfile.gender",
+                    age: "$userProfile.age",
+                    mobile: "$userProfile.mobile",
+                    address: "$userProfile.address"
+                }
+            }
+        ]).limit(5);
+
+        res.json(profileList);
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 // get a profile details 
@@ -60,12 +89,6 @@ const putProfile = async (req, res) => {
         const data = req.body;
         const userId = data.userId;
 
-        // check user existence
-        // const user = await User.findById(userId);
-        // if (!user) {
-        //     return res.status(404).json({ error: 'User not found' });
-        // }
-
         const updatedProfile = await Profile.findByIdAndUpdate(
             profileId,
             data,
@@ -102,7 +125,7 @@ const patchProfile = async (req, res) => {
                 runValidators: true
             }
         );
-        
+
         if(!updatedProfile) {
             return res.status(400).json({ error: 'Profile not found' });
         }
