@@ -18,105 +18,99 @@ const getProfileById = async (req, res) => {
         res.json(profile);
     } catch (err) {
         console.log('Error in fetch profile details. Error: ' + err);
-        res.status(400).json({erorr: 'Error in fetching profile details'});
+        res.status(400).json({error: 'Error in fetching profile details'});
     }
 }
 
-// create an profile
+// create a profile
 const createProfile = async (req, res) => {
     try {
         const data = req.body;
         const userId = data.userId;
 
-        // check user existance
+        // check user existence
         const user = await User.findById(userId);
         if (!user) {
-            // If user does not exist, return a 404 error
             return res.status(404).json({ error: 'User not found' });
         }
-        
-        // check profile existance
-        const existingProfile = await Profile.findOne({ userId: userId });
-        if (existingProfile) {
-            // If profile exists, return a message and don't create a new one
-            return res.status(400).json({ error: 'Profile already exists for this user' });
-        }
 
+        // check profile existence
+        if (user.profile) {
+             return res.status(404).json({ error: 'Profile already created. Use PUT/PATCH API' });
+        }
+        
+        // create New Profile
         const newProfile = new Profile(data);
-        const savedProfile = await newProfile.save();
+        const savedProfile = await newProfile.save();  // uncommented to save profile
+        
+        // set profile ID in User
+        await User.findByIdAndUpdate(userId, { profile: savedProfile._id });
+        
         res.status(201).json(savedProfile);
-        // 201 => status for 'created' 
     } catch (err) {
         console.log('Error in saving profile. Error: ' + err);
-        res.status(400).json({error:'Invalid Data'}); 
-        // 400 => status for 'bad request'
+        res.status(400).json({ error: 'Invalid Data' });
     }
 };
 
-// update with overwrite 
+// update with overwrite
 const putProfile = async (req, res) => {
     try {
         const profileId = req.params.profileId;
         const data = req.body;
         const userId = data.userId;
-        
-        // check user existance
-        const user = await User.findById(userId);
-        if (!user) {
-            // If user does not exist, return a 404 error
-            return res.status(404).json({ error: 'User not found' });
-        }
+
+        // check user existence
+        // const user = await User.findById(userId);
+        // if (!user) {
+        //     return res.status(404).json({ error: 'User not found' });
+        // }
 
         const updatedProfile = await Profile.findByIdAndUpdate(
             profileId,
             data,
             { 
-                new: true, // to get updated profile in the updatedProfile variable
-                overwrite: true, // for PUT request this should be true 
+                new: true,
+                overwrite: true, 
                 runValidators: true
             }
         );
         
         if (!updatedProfile) {
-            return res.status(404).json({error: 'Profile not found'});
+            return res.status(404).json({ error: 'Profile not found' });
         }
 
         res.json(updatedProfile);
     } catch (err) {
         console.log('Error in updating profile. Error: ' + err);
-        res.status(400).json({error: 'Unable to store the data'});
+        res.status(400).json({ error: 'Error in updating profile' });
     }
 };
 
-// update with out overwrite 
+// update without overwrite
 const patchProfile = async (req, res) => {
     try {
         const profileId = req.params.profileId;
         const data = req.body;
-        const userId = data.userId;
-
-        // check user existance
-        const user = await User.findById(userId);
-        if (!user) {
-            // If user does not exist, return a 404 error
-            return res.status(404).json({ error: 'User not found' });
-        }
         
         const updatedProfile = await Profile.findByIdAndUpdate(
             profileId, 
             data, 
             {
-                new: true, // return updated profile
-                overwrite: false, // For PUT this should be false
+                new: true, 
+                overwrite: false,
                 runValidators: true
             }
         );
-        if(!updatedProfile)
-            return res.status(400).json({error: 'Profile not found'});
+        
+        if(!updatedProfile) {
+            return res.status(400).json({ error: 'Profile not found' });
+        }
+
         res.json(updatedProfile);
     } catch (err) {
         console.log('Error in Updating Profile. Error: ' + err);
-        res.status(400).json({error: 'Error in Updating Profile'});
+        res.status(400).json({ error: 'Error in updating profile' });
     }
 };
 
@@ -125,8 +119,9 @@ const deleteProfile = async (req, res) => {
     try {
         const profileId = req.params.profileId;
         const deleted = await Profile.findByIdAndDelete(profileId);
-        if (!deleted) 
-            return res.status(400).json({error: 'Invalid Profile Id'});
+        if (!deleted) {
+            return res.status(400).json({ error: 'Invalid Profile Id' });
+        }
         res.json(deleted);
     } catch (err) {
         console.log('Error in deleting profile. Error: ' + err);
@@ -141,4 +136,4 @@ module.exports = {
     putProfile,
     patchProfile,
     deleteProfile
-}
+};

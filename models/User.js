@@ -10,12 +10,25 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true, 
         lowercase: true, 
-        trim: true
+        trim: true,
+        set: v => v.toLowerCase()
     },
     password: {
         type: String,
         required: true, 
         trim: true
+    },
+    profile: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Profile'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+         default: Date.now
     }
 });
 
@@ -25,7 +38,7 @@ UserSchema.pre('save', async function (next) {
         this.password = await bcrypt.hash(this.password, salt);
         next();
     } catch (err) {
-        console.log('Error in encrypting password. Error: ' + Error);
+        console.log('Error in encrypting password. Error: ' + err);
         next(err);
     }
 });
