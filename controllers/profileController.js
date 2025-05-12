@@ -1,4 +1,5 @@
 // get Profile Model 
+const mongoose = require('mongoose');
 const Profile = require('../models/Profile');
 const User = require('../models/User');
 
@@ -39,12 +40,53 @@ const getProfiles = async (req, res) => {
 
 // get a profile details 
 const getProfileById = async (req, res) => {
-    try {
-        const profile = await Profile.findById(req.params.profileId);
-        if (!profile) {
-            return res.status(404).json({message: 'Profile not found'});
+    try {        
+        // Check userId
+        const { userId } = req.params;
+        if (!userId) {
+            return res.status(400).json({ error: 'Missing userId parameter' });
         }
-        res.json(profile);
+
+        // convert the userId to ObjectId
+        const objectId = mongoose.Types.ObjectId.createFromHexString(userId);
+
+        // populate profile
+        // const user = await User.findById(userId).populate('profile');
+        const user = await User.aggregate([
+            {
+                $match: {
+                    _id: objectId
+                }
+            },
+            {
+                $lookup: {
+                    from: "profiles",
+                    localField: "profile",
+                    foreignField: '_id',
+                    as: "userProfile"
+                }
+            },
+            {
+                $unwind: "$userProfile"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    email: 1, 
+                    name: "$userProfile.name",
+                    gender: "$userProfile.gender",
+                    age: "$userProfile.age",
+                    mobile: "$userProfile.mobile",
+                    address: "$userProfile.address"
+                }
+            }
+        ]);
+
+        if (!user) {
+            return res.status(404).json({message: 'Associated User not found'});
+        }
+
+        res.json(user);
     } catch (err) {
         console.log('Error in fetch profile details. Error: ' + err);
         res.status(400).json({error: 'Error in fetching profile details'});
@@ -55,7 +97,7 @@ const getProfileById = async (req, res) => {
 const createProfile = async (req, res) => {
     try {
         const data = req.body;
-        const userId = data.userId;
+        const userId = req.user.id;
 
         // check user existence
         const user = await User.findById(userId);
@@ -71,11 +113,10 @@ const createProfile = async (req, res) => {
         // create New Profile
         const newProfile = new Profile(data);
         const savedProfile = await newProfile.save();  // uncommented to save profile
-        
         // set profile ID in User
         await User.findByIdAndUpdate(userId, { profile: savedProfile._id });
         
-        res.status(201).json(savedProfile);
+        res.status(201).json({ profileId: savedProfile._id });
     } catch (err) {
         console.log('Error in saving profile. Error: ' + err);
         res.status(400).json({ error: 'Invalid Data' });
@@ -85,10 +126,17 @@ const createProfile = async (req, res) => {
 // update with overwrite
 const putProfile = async (req, res) => {
     try {
-        const profileId = req.params.profileId;
         const data = req.body;
-        const userId = data.userId;
 
+        // Check user
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({error: "User Not Found"});
+        }
+
+        // Check profile
+        const profileId = user.profile;
         const updatedProfile = await Profile.findByIdAndUpdate(
             profileId,
             data,
@@ -98,12 +146,12 @@ const putProfile = async (req, res) => {
                 runValidators: true
             }
         );
-        
+
         if (!updatedProfile) {
             return res.status(404).json({ error: 'Profile not found' });
         }
 
-        res.json(updatedProfile);
+        res.json({ message: "Profile patched successfully"});
     } catch (err) {
         console.log('Error in updating profile. Error: ' + err);
         res.status(400).json({ error: 'Error in updating profile' });
@@ -113,24 +161,32 @@ const putProfile = async (req, res) => {
 // update without overwrite
 const patchProfile = async (req, res) => {
     try {
-        const profileId = req.params.profileId;
         const data = req.body;
-        
+
+        // Check user
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({error: "User Not Found"});
+        }
+
+        // Check profile
+        const profileId = user.profile;
         const updatedProfile = await Profile.findByIdAndUpdate(
-            profileId, 
-            data, 
-            {
-                new: true, 
-                overwrite: false,
+            profileId,
+            data,
+            { 
+                new: true,
+                overwrite: true, 
                 runValidators: true
             }
         );
 
-        if(!updatedProfile) {
-            return res.status(400).json({ error: 'Profile not found' });
+        if (!updatedProfile) {
+            return res.status(404).json({ error: 'Profile not found' });
         }
 
-        res.json(updatedProfile);
+        res.json({ message: "Profile updated sucessfully"});
     } catch (err) {
         console.log('Error in Updating Profile. Error: ' + err);
         res.status(400).json({ error: 'Error in updating profile' });

@@ -20,16 +20,16 @@ connectMongoDB();
 router.get('/profiles', authenticateJwtToken, profileController.getProfiles);
 
 // Read a Profile
-router.get('/profiles/:profileId', authenticateJwtToken, profileController.getProfileById);
+router.get('/profiles/:userId', authenticateJwtToken, profileController.getProfileById);
 
 // Write a Profile
 router.post('/profiles', authenticateJwtToken, profileController.createProfile);
 
 // Update a Profile (Overwrite)
-router.put('/profiles/:profileId', authenticateJwtToken, profileController.putProfile);
+router.put('/profiles/', authenticateJwtToken, profileController.putProfile);
 
 // Update Profile (Do not Overwrite)
-router.patch('/profiles/:profileId', authenticateJwtToken, profileController.patchProfile);
+router.patch('/profiles/', authenticateJwtToken, profileController.patchProfile);
 
 router.delete('/profiles/:profileId', authenticateJwtToken, profileController.deleteProfile);
 
