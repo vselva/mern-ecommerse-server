@@ -177,7 +177,7 @@ const patchProfile = async (req, res) => {
             data,
             { 
                 new: true,
-                overwrite: true, 
+                overwrite: false,
                 runValidators: true
             }
         );
