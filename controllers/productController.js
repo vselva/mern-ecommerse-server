@@ -74,5 +74,42 @@ const getProductById = async (req, res) => {
     }
 }
 
+// Update Product
+const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, description, price } = req.body;
+
+        // Validate the request body
+        if (!name || !description || !price) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Update the product in the database
+        const updatedProduct = await Product.findByIdAndUpdate(id, {
+            name,
+            description,
+            price
+        }, { new: true });
+
+        // Check if the product exists
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        // Return the updated product as a JSON response
+        res.status(200).json(updatedProduct);
+    } catch (error) {
+        console.error('Error updating product:', error);
+        res.status(500).json({ message: 'Error updating product' });
+    }
+}
+
+
 // Export the controller functions
-module.exports = { getProducts, createProduct, getProductById };
+module.exports = { 
+    getProducts, 
+    createProduct, 
+    getProductById, 
+    updateProduct 
+};
