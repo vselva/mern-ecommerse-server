@@ -21,16 +21,8 @@ const UserSchema = new mongoose.Schema({
     profile: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Profile'
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-         default: Date.now
     }
-});
+}, { timestamps: true });
 
 UserSchema.pre('save', async function (next) {
     try {

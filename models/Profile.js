@@ -30,16 +30,8 @@ const profileSchema = new mongoose.Schema({
         pincode: {
             type: String
         }
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-         default: Date.now
     }
-});
+}, { timestamps: true });
 
 const profileModel = mongoose.model('Profile', profileSchema);
 
