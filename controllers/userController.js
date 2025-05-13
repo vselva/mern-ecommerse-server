@@ -68,4 +68,59 @@ const logout = (req, res) => {
     }
 }
 
-module.exports = { register, login, logout }
+// get a profile details 
+const getMyProfile = async (req, res) => {
+    try {        
+        // Check userId
+        const userId = req.user.id;
+        if (!userId) {
+            return res.status(400).json({ error: 'Missing userId parameter' });
+        }
+
+        // convert the userId to ObjectId
+        const objectId = mongoose.Types.ObjectId.createFromHexString(userId);
+
+        // populate profile
+        // const user = await User.findById(userId).populate('profile');
+        const user = await User.aggregate([
+            {
+                $match: {
+                    _id: objectId
+                }
+            },
+            {
+                $lookup: {
+                    from: "profiles",
+                    localField: "profile",
+                    foreignField: '_id',
+                    as: "userProfile"
+                }
+            },
+            {
+                $unwind: "$userProfile"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    email: 1, 
+                    name: "$userProfile.name",
+                    gender: "$userProfile.gender",
+                    age: "$userProfile.age",
+                    mobile: "$userProfile.mobile",
+                    address: "$userProfile.address"
+                }
+            }
+        ]);
+
+        if (!user) {
+            return res.status(404).json({message: 'Associated User not found'});
+        }
+
+        res.json(user);
+    } catch (err) {
+        console.log('Error in fetch profile details. Error: ' + err);
+        res.status(400).json({error: 'Error in fetching profile details'});
+    }
+}
+
+module.exports = { register, login, logout, getMyProfile }
