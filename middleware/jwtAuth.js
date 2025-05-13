@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+
+// get config from .env file
 const dotenv = require('dotenv');
 dotenv.config();
 const JWT_SECRET_CODE = process.env.JWT_SECRET_CODE;
