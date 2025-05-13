@@ -1,15 +1,8 @@
 // Get Product
 const Product = require('../models/Product');
-const { patchProfile } = require('./profileController');
 
 const getProducts = async (req, res) => {
     try {
-        // Simulate fetching products from a database
-        // const products = [
-        // { id: 1, name: 'Product 1', price: 100 },
-        // { id: 2, name: 'Product 2', price: 200 },
-        // ];
-        
         const products = await Product.find().limit(10);
         if (!products || products.length === 0) {
             return res.status(404).json({ message: 'No products found' });

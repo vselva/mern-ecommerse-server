@@ -1,13 +1,17 @@
-const productController = require('../controllers/productController');
+// Get Router
+const router = require('express').Router();
+
+// Get jwt middleware
 const authenticateJwtToken = require('../middleware/jwtAuth');
 
-const routes = require('express').Router();
+// Get Product Controller
+const productController = require('../controllers/productController');
 
-routes.get('/products', authenticateJwtToken, productController.getProducts);
-routes.post('/products', authenticateJwtToken, productController.createProduct);
-routes.get('/products/:id', authenticateJwtToken, productController.getProductById);
-routes.put('/products/:id', authenticateJwtToken, productController.updateProduct);
-routes.patch('/products/:id', authenticateJwtToken, productController.patchProduct);
-routes.delete('/products/:id', authenticateJwtToken, productController.deleteProduct);
+router.get('/products', authenticateJwtToken, productController.getProducts);
+router.post('/products', authenticateJwtToken, productController.createProduct);
+router.get('/products/:id', authenticateJwtToken, productController.getProductById);
+router.put('/products/:id', authenticateJwtToken, productController.updateProduct);
+router.patch('/products/:id', authenticateJwtToken, productController.patchProduct);
+router.delete('/products/:id', authenticateJwtToken, productController.deleteProduct);
 
-module.exports = routes;
+module.exports = router;

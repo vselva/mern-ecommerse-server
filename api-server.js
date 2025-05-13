@@ -31,6 +31,10 @@ app.use('/api', userRoutes);
 const productRoutes = require('./routes/productRoutes');
 app.use('/api', productRoutes);
 
+// Order Routes
+const orderRoutes = require('./routes/orderRoutes');
+app.use('/api', orderRoutes);
+
 // Listen to port 8000 for incoming requests
 app.listen(PORT, () => {
     console.log('App running on port ' + PORT);
