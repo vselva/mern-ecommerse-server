@@ -14,14 +14,32 @@ const getOrders = async (req, res) => {
                 }
             },
             {
+                $unwind: "$userInfo"
+            },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "products.product",
+                    foreignField: "_id",
+                    as: "productDetails"
+                }
+            },
+            // {
+            //     $unwind: "$productDetails"
+            // },
+            {
                 $project: {
                     _id: 1,
                     orderDate: "$createdAt",
                     totalAmount: 1,
                     user: 1,
                     "userInfo._id": 1,
-                    "userInfo.email": 1
+                    "userInfo.email": 1,
+                    productDetails: "$productDetails"
                 }
+            },
+            {
+                $limit: 2
             }
         ]);
         res.status(200).json(orders);
