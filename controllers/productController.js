@@ -55,13 +55,21 @@ const getProductById = async (req, res) => {
         // Fetch the product by ID from the database
         const product = await Product.findById(id);
 
+        // Testing Schema Method 
+        product.log();
+
+        // Testing Schema Statics
+        const productByName = await Product.findByName(product.name);
+        console.log('Product from findByName (for testing):', productByName);
+
         // Check if the product exists
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
 
         // Return the product as a JSON response
-        res.status(200).json(product);
+        // res.status(200).json(product); // virtual will not be included ex inRupees
+        res.status(200).json(product.toObject( { virtuals: true }));
     } catch (error) {
         console.error('Error fetching product by ID:', error);
         res.status(500).json({ message: 'Error fetching product by ID' });

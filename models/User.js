@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+// pre middleware
 UserSchema.pre('save', async function (next) {
     try {
         const salt = await bcrypt.genSalt(10);
@@ -34,6 +35,12 @@ UserSchema.pre('save', async function (next) {
         next(err);
     }
 });
+
+// Post middleware 
+UserSchema.post('save', function(docs) {
+    console.log(`New User has been created: ${docs.email}`);
+});
+
 const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;

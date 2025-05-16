@@ -74,6 +74,7 @@ const getProfileById = async (req, res) => {
                     _id: 0,
                     email: 1, 
                     name: "$userProfile.name",
+                    namedEmail: 1,
                     gender: "$userProfile.gender",
                     age: "$userProfile.age",
                     mobile: "$userProfile.mobile",
