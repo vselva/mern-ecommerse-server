@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
-
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const [ loginFormData, setLoginFormData ] = useState({
@@ -30,6 +31,7 @@ const Login = () => {
                     loginFormData
                 );
             const token = res.data.token;
+            login(token);
             console.log('token:', token);
             navigate("/dashboard");
         } catch (err:any) {
