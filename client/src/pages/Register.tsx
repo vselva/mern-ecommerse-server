@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [ registerData, setRegisterData ] = useState({
         email: '',
         password: ''
     });
+
+    const navigate = useNavigate();
 
     const [ response, setResponse ] = useState('');
 
@@ -23,6 +26,7 @@ const Register = () => {
                 .post('http://localhost:8000/api/auth/register/', registerData);
             console.log(res.data);
             setResponse(res.data.message + '. Please login!');
+            navigate('/login');
         } catch (err:any) {
             console.log('err:', err);
             setResponse(err.response?.data?.error || 'Registration Failed');
