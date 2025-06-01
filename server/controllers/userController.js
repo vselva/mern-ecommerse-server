@@ -16,7 +16,7 @@ const register = async (req, res) => {
         // const newUser = await User.create({email, password});
         const newUser = new User({ email, password});
         const savedUser = await newUser.save();
-        res.status(201).json({ message: 'user registered', id: savedUser._id });
+        res.status(201).json({ message: 'User registered', id: savedUser._id });
     } catch (err) {
         console.log('Error in registering an User. Error: ' + err);
         res.status(400).json({error: 'Error in registering an user.'});
