@@ -1,5 +1,5 @@
 
-import { getByRole, render, renderHook, screen } from '@testing-library/react';
+import { fireEvent, getByRole, render, renderHook, screen } from '@testing-library/react';
 import Navbar from './Navbar';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { BrowserRouter as Router } from "react-router-dom"

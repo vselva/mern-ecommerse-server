@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Login from "./Login";
 import { AuthProvider } from '../context/AuthContext';
 import { BrowserRouter as Router } from "react-router-dom";
+import userEvent from '@testing-library/user-event';
 
 test('Renders Login Form Correctly', () => {
     render(
@@ -50,3 +51,43 @@ test('Renders Login Form Correctly', () => {
 
 });
 
+test('when user click login form without email and password', async () => {
+    render(<AuthProvider>
+        <Router>
+            <Login />
+        </Router>
+    </AuthProvider>);
+
+    const emailInput = screen.getByRole('textbox', { name: /email/i });
+    const passwordInput = screen.getByLabelText(/password/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
+    // Fire Event - Click the login button without entering email and password
+    fireEvent.change(emailInput, { target: { value: '' } });
+    fireEvent.change(passwordInput, { target: { value: '' } });
+    fireEvent.click(loginButton);
+    //expect(screen.getByText(/User not found/i)).toBeInTheDocument();
+    
+    // Fire Event - Change the email and password input fields
+    fireEvent.change(emailInput, { target: { value: 'member@gmail.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    expect(emailInput).toHaveValue('member@gmail.com');
+    expect(passwordInput).toHaveValue('password123');
+    fireEvent.click(loginButton);
+    //expect(screen.getByText(/Invalid Credentials/i)).toBeInTheDocument();
+
+    // userEvent - simulates a user event
+    await userEvent.type(emailInput, 'member@gmail.com');
+    await userEvent.type(passwordInput, 'Password123');
+    await userEvent.click(loginButton);
+    expect(screen.getByText(/Invalid Credentials/i)).toBeInTheDocument();
+
+    // userEvent - simulates a user event clearing email and password fields
+    await userEvent.clear(emailInput);
+    await userEvent.clear(passwordInput);
+    expect(emailInput).toHaveValue('');
+    expect(passwordInput).toHaveValue('');  
+    await userEvent.click(loginButton);
+    console.log(screen.debug());
+    expect(screen.getByText(/Invalid Credentials/i)).toBeInTheDocument();
+});
