@@ -14,7 +14,10 @@ test('Renders Login Form Correctly', () => {
     // getByRole - matches <button>Login</button>
     expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
 
-    // getByRole 
+    // getByRole - matches <button>Logout</button> ...
+    expect(screen.getAllByRole('button')).toHaveLength(1); 
+
+    // getByRole
     // - matches <label for="email">Email</label> <input id="email" /> ...
     // - matches <input type="email" id="email" aria-label="Email" /> ...
     expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();

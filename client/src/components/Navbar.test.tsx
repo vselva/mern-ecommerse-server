@@ -37,6 +37,9 @@ test('renders Login and Register links when not authenticated', () => {
     expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /register/i })).toBeInTheDocument();
 
+    // getByRole for three links in the navbar
+    expect(screen.getAllByRole('link')).toHaveLength(6);
+
     // getByRole for <img src="/vite.svg" alt="Vite logo" />
     expect(screen.getByRole('img', { name: /vite logo/i })).toBeInTheDocument();
 

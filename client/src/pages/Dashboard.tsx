@@ -31,7 +31,7 @@ const Dashboard = () => {
                         <div className="card-header bg-secondary text-white">
                             Orders
                         </div>
-                        <ul className="list-group list-group-flush">
+                        <ul className="list-group list-group-flush" aria-label="Orders List">
                             <li className="list-group-item">
                                 <strong>#1001</strong> - John Doe - <span className="badge bg-info">Processing</span>
                             </li>
