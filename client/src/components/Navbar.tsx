@@ -10,6 +10,7 @@ const Navbar = () => {
                 <Link className="navbar-brand fw-bold" to="/">
                     <i className="bi bi-bag-check-fill me-2"></i>
                     E-Shop
+                    <img src="/vite.svg" alt="Vite logo" className="vite-logo" />
                 </Link>
                 <button
                     className="navbar-toggler"

@@ -1,0 +1,30 @@
+import { render, screen } from "@testing-library/react";
+import Login from "./Login";
+import { AuthProvider } from '../context/AuthContext';
+import { BrowserRouter as Router } from "react-router-dom";
+
+test('Renders Login Form Correctly', () => {
+    render(
+        <AuthProvider>
+            <Router>
+                <Login />
+            </Router>
+        </AuthProvider>
+    );
+    // getByRole - matches <button>Login</button>
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+
+    // getByRole 
+    // - matches <label for="email">Email</label> <input id="email" /> ...
+    // - matches <input type="email" id="email" aria-label="Email" /> ...
+    expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
+
+    // getByLabelText 
+    // - matches <label for="password">Password</label> <input id="password" /> ...
+    // - matches <input type="password" id="password" aria-label="Password" /> ...
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+
+    // getByRole - <form aria-label="Login Form">
+    expect(screen.getByRole('form')).toBeInTheDocument();
+});
+

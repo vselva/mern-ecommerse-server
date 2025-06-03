@@ -43,11 +43,13 @@ const Login = () => {
     return <>
         <div className="container mt-5" style={{ maxWidth: 400 }}>
             <h2 className="mb-4 text-center">Login</h2>
-            <form onSubmit={submitHandler}>
+            <form onSubmit={submitHandler} aria-label="Login Form">
                 <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email</label>
                     <input
                         type="email"
                         name="email"
+                        id="email"
                         className="form-control"
                         value={loginFormData.email}
                         onChange={handleChange}
@@ -58,6 +60,7 @@ const Login = () => {
                     <input
                         type="password"
                         name="password"
+                        aria-label="Password"
                         className="form-control"
                         value={loginFormData.password}
                         onChange={handleChange}

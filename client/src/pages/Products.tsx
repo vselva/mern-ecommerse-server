@@ -17,7 +17,7 @@ const Products: React.FC = () => {
     return (
         <div className="container mt-4">
             <h4>Products</h4>
-            <table className="table table-striped mt-3">
+            <table className="table table-striped mt-3" aria-label="Products Table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -28,7 +28,9 @@ const Products: React.FC = () => {
                 <tbody>
                     {products.map((prod) => (
                         <tr key={prod.id}>
-                            <td>{prod.name}</td>
+                            {/* <td>{prod.name}</td> */}
+                            { /* makeing product name as row header */}
+                            <th scope="row">{prod.name}</th>
                             <td>{prod.price.toFixed(2)}</td>
                             <td>
                                 <Link to={`/products/edit/${prod.id}`} className="btn btn-sm btn-primary me-2">
