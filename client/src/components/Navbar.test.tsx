@@ -39,7 +39,10 @@ test('renders Login and Register links when not authenticated', () => {
 
     // getByRole for <img src="/vite.svg" alt="Vite logo" />
     expect(screen.getByRole('img', { name: /vite logo/i })).toBeInTheDocument();
-    
+
+    // getByAltText - matches <img src="/vite.svg" alt="Vite logo" />
+    expect(screen.getByAltText('Vite logo')).toBeInTheDocument();
+
     // rendered DOM can be debugged with this command
     // console.log(screen.debug());
 });
