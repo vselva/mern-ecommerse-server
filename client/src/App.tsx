@@ -6,12 +6,14 @@ import Logout from "./pages/Logout"
 import { useAuth } from "./context/AuthContext"
 import Navbar from "./components/Navbar"
 import PrivateRoute from "./routes/PrivateRoute"
+import NotFound from "./pages/404"
+import Products from "./pages/Products"
+import Orders from "./pages/Orders"
 
 function App() {
 
     const { } = useAuth();
     return (<>
-        
         <Router>
             <Navbar />
             <div className="container mt-5">
@@ -26,6 +28,9 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/logout" element={<Logout />} />
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/orders" element={<Orders />} />
+                        <Route path="*" element={ <NotFound /> } />
                     </Routes>
                 </div>
             </div>
