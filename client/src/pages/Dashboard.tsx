@@ -3,6 +3,7 @@ const Dashboard = () => {
     return (
         <div className="container py-5">
             <h2 className="mb-4 text-center">Dashboard</h2>
+            <p>Welcome to Dashboard Page!</p>
             <div className="row">
                 <div className="col-md-6 mb-4">
                     <div className="card shadow-sm">

@@ -13,5 +13,10 @@ test('renders Dashboard with correct elements', () => {
     </AuthProvider>);
 
     // expect(screen.getByRole('list')).toHaveLength(3); // only for selecting a single element. But in this paeg we have many list items and this getByRole will not work as expected.
+
+    // getByText -<h4>Welcome to Dashboard Page!</h4>
+    // matches the text content of an element
+    expect(screen.getByText(/Welcome to Dashboard Page!/g)).toBeInTheDocument();
+
 });
 
