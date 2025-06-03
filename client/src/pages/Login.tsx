@@ -67,6 +67,20 @@ const Login = () => {
                         placeholder="Enter your password"
                         />
                 </div>
+                
+                <div className="mb-3">
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                        className="form-check-input"
+                        value="rememberMe"
+                        name="rememberMe"
+                    />
+                    <label htmlFor="rememberMe" className="form-check-label">
+                        Remember Me
+                    </label>
+                </div>
+
                 <button type="submit" className="btn btn-primary w-100">
                     Login
                 </button>

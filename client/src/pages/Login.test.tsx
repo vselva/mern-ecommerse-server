@@ -33,5 +33,8 @@ test('Renders Login Form Correctly', () => {
     expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/enter your password/i)).toBeInTheDocument();
     
+    // getByDisplayValue - reads the value of an input field, select, textarea, etc.
+    // - matches <input type="email" id="email" value="rememberMe" />
+    expect(screen.getByDisplayValue('rememberMe')).toBeInTheDocument();
 });
 
