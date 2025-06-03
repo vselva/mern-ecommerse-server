@@ -31,7 +31,6 @@ const Login = () => {
                 );
             const token = res.data.token;
             login(token);
-            console.log('token:', token);
             navigate("/dashboard");
         } catch (err:any) {
             console.log(err.response?.data?.error);
