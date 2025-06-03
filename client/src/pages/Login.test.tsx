@@ -89,5 +89,6 @@ test('when user click login form without email and password', async () => {
     expect(passwordInput).toHaveValue('');  
     await userEvent.click(loginButton);
     console.log(screen.debug());
-    expect(screen.getByText(/Invalid Credentials/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Invalid Credentials/i)).toBeInTheDocument();
 });
+
