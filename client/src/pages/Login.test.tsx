@@ -19,12 +19,14 @@ test('Renders Login Form Correctly', () => {
     // - matches <input type="email" id="email" aria-label="Email" /> ...
     expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
 
+    // getByRole - <form aria-label="Login Form">
+    expect(screen.getByRole('form')).toBeInTheDocument();
+
     // getByLabelText 
     // - matches <label for="password">Password</label> <input id="password" /> ...
     // - matches <input type="password" id="password" aria-label="Password" /> ...
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-
-    // getByRole - <form aria-label="Login Form">
-    expect(screen.getByRole('form')).toBeInTheDocument();
+    
 });
 

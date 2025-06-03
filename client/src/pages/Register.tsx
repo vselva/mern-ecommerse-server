@@ -39,9 +39,11 @@ const Register = () => {
             className="container mt-4" 
             style={{ maxWidth: 400 }} >
             <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email</label>
             <input
                 name="email"
                 type="email"
+                id="email"
                 className="form-control"
                 onChange={handleChange}
                 value={registerData.email}
@@ -53,6 +55,7 @@ const Register = () => {
             <input
                 name="password"
                 type="password"
+                aria-label="Password"
                 className="form-control"
                 onChange={handleChange}
                 value={registerData.password}
