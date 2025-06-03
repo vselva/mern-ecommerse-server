@@ -23,7 +23,6 @@ const Login = () => {
 
     const submitHandler = async (e:any) => {
         e.preventDefault();
-        console.log('submitHandler');
         try {
             const res = await axios
                 .post(
