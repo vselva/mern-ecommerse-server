@@ -36,6 +36,7 @@ test('renders Login and Register links when not authenticated', () => {
     expect(screen.getByRole('link', { name: /dashboard/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /register/i })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /forget password/i })).not.toBeInTheDocument();
 
     // getByRole for three links in the navbar
     expect(screen.getAllByRole('link')).toHaveLength(6);
