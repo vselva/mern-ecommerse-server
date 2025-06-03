@@ -40,5 +40,10 @@ test('Renders Login Form Correctly', () => {
     // getByDataTestId - matches elements with data-testid attribute
     // - matches <input data-testid="rememberMe" />
     expect(screen.getByTestId('rememberMe')).toBeInTheDocument();
+
+    // getByTitle - matches elements with title attribute
+    // - matches <button title="Login Button">Login</button>
+    expect(screen.getByTitle('Login Button')).toBeInTheDocument();
+
 });
 
