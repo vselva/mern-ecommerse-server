@@ -11,15 +11,15 @@ const Dashboard = () => {
                             Products
                         </div>
                         <ul className="list-group list-group-flush">
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
+                            <li className="list-group-item d-flex justify-content-between align-items-center" aria-label="Product Item 1">
                                 iPhone 14 Pro
                                 <span className="badge bg-success rounded-pill">12 in stock</span>
                             </li>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
+                            <li className="list-group-item d-flex justify-content-between align-items-center" aria-label="Product Item 2">
                                 Samsung Galaxy S23
                                 <span className="badge bg-success rounded-pill">8 in stock</span>
                             </li>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
+                            <li className="list-group-item d-flex justify-content-between align-items-center" aria-label="Product Item 3">
                                 MacBook Air M2
                                 <span className="badge bg-warning rounded-pill">3 in stock</span>
                             </li>
