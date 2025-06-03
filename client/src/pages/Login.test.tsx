@@ -36,5 +36,9 @@ test('Renders Login Form Correctly', () => {
     // getByDisplayValue - reads the value of an input field, select, textarea, etc.
     // - matches <input type="email" id="email" value="rememberMe" />
     expect(screen.getByDisplayValue('rememberMe')).toBeInTheDocument();
+
+    // getByDataTestId - matches elements with data-testid attribute
+    // - matches <input data-testid="rememberMe" />
+    expect(screen.getByTestId('rememberMe')).toBeInTheDocument();
 });
 

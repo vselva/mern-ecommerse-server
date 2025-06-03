@@ -75,6 +75,7 @@ const Login = () => {
                         className="form-check-input"
                         value="rememberMe"
                         name="rememberMe"
+                        data-testid="rememberMe"
                     />
                     <label htmlFor="rememberMe" className="form-check-label">
                         Remember Me
