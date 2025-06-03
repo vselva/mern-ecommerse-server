@@ -27,6 +27,11 @@ test('Renders Login Form Correctly', () => {
     // - matches <input type="password" id="password" aria-label="Password" /> ...
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+
+    // GetByPlaceholder
+    // - matches <input type="email" id="email" placeholder="Enter your email" />
+    expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/enter your password/i)).toBeInTheDocument();
     
 });
 

@@ -47,7 +47,7 @@ const Register = () => {
                 className="form-control"
                 onChange={handleChange}
                 value={registerData.email}
-                placeholder="Email"
+                placeholder="Enter your email"
                 autoComplete="email"
             />
             </div>
@@ -59,7 +59,7 @@ const Register = () => {
                 className="form-control"
                 onChange={handleChange}
                 value={registerData.password}
-                placeholder="Password"
+                placeholder="Enter your password"
                 autoComplete="new-password"
             />
             </div>
