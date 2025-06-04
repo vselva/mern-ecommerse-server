@@ -16,7 +16,8 @@ app.use(express.json());
 // cors
 const cors = require('cors');
 app.use(cors({
-    methods: ['GET', 'POST']
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
 }));
 
 // Get Profile Routes

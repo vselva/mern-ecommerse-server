@@ -10,7 +10,13 @@ const Products: React.FC = () => {
     const [products, setProducts] = useState([]);
 
     const handleDelete = (id: number) => {
-        setProducts(products.filter((p) => p._id !== id));
+        axios.delete(`http://localhost:8000/api/products/${id}`)
+            .then(() => {
+                setProducts(products.filter((p) => p._id !== id));
+            })
+            .catch((error) => {
+                console.error("Error deleting product:", error);
+            });
     };
 
     useEffect(() => {
@@ -36,7 +42,8 @@ const Products: React.FC = () => {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Price ($)</th>
+                        <th>Description</th>
+                        <th>Price (Rs.)</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -46,6 +53,7 @@ const Products: React.FC = () => {
                             {/* <td>{prod.name}</td> */}
                             { /* makeing product name as row header */}
                             <th scope="row">{prod.name}</th>
+                            <td>{prod.description}</td>
                             <td>{prod.price.toFixed(2)}</td>
                             <td>
                                 <Link to={`/products/edit/${prod.id}`} className="btn btn-sm btn-primary me-2">
@@ -53,7 +61,7 @@ const Products: React.FC = () => {
                                 </Link>
                                 <button
                                     className="btn btn-sm btn-danger"
-                                    onClick={() => handleDelete(prod.id)}
+                                    onClick={() => handleDelete(prod._id)}
                                 >
                                     Delete
                                 </button>
