@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const initialProducts = [
-    { id: 1, name: "Product A", price: 19.99 },
-    { id: 2, name: "Product B", price: 29.99 },
-    { id: 3, name: "Product C", price: 39.99 },
-];
+import { useAuth } from "../context/AuthContext";
 
 const Products: React.FC = () => {
-    const [products, setProducts] = useState(initialProducts);
+
+    const { isAuthenticated, token } = useAuth();
+
+    const [products, setProducts] = useState([]);
 
     const handleDelete = (id: number) => {
-        setProducts(products.filter((p) => p.id !== id));
+        setProducts(products.filter((p) => p._id !== id));
     };
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            const fetchProducts = async () => {
+                try {
+                    const res = await axios.get('http://localhost:8000/api/products/');
+                    console.log("Fetched products:", res.data);
+                    setProducts(res.data);
+                } catch (error) {
+                    console.error("Error fetching products:", error);
+                }
+            };
+            fetchProducts();
+        }
+    }, []);
 
     return (
         <div className="container mt-4">
@@ -27,7 +42,7 @@ const Products: React.FC = () => {
                 </thead>
                 <tbody>
                     {products.map((prod) => (
-                        <tr key={prod.id}>
+                        <tr key={prod._id}>
                             {/* <td>{prod.name}</td> */}
                             { /* makeing product name as row header */}
                             <th scope="row">{prod.name}</th>

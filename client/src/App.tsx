@@ -3,7 +3,6 @@ import Register from "./pages/register"
 import Login from "./pages/Login"
 import Dashboard from "./pages/Dashboard"
 import Logout from "./pages/Logout"
-import { useAuth } from "./context/AuthContext"
 import Navbar from "./components/Navbar"
 import PrivateRoute from "./routes/PrivateRoute"
 import NotFound from "./pages/404"
@@ -12,7 +11,6 @@ import Orders from "./pages/Orders"
 
 function App() {
 
-    const { } = useAuth();
     return (<>
         <Router>
             <Navbar />
@@ -32,7 +30,11 @@ function App() {
                                 <Dashboard />
                             </PrivateRoute>
                         } />
-                        <Route path="/products" element={<Products />} />
+                        <Route path="/products" element={
+                            <PrivateRoute>
+                                <Products />
+                            </PrivateRoute>
+                        } />
                         <Route path="/orders" element={<Orders />} />
                         <Route path="*" element={ <NotFound /> } />
                     </Routes>
