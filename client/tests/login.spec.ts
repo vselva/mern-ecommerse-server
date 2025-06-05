@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { describe } from 'node:test';
 
-describe('Login Page Tests', () => {
+test.describe('Login Page Tests', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/login');
+    });
+
     test('Login Page Loads Correctly', async ({ page }) => {
         await page.goto('/login');
         await expect(page).toHaveTitle(/E-Commerce App/i);
@@ -24,5 +28,32 @@ describe('Login Page Tests', () => {
 
         // login link 
         await expect(page.getByRole('link', { name: /Login/i })).toHaveAttribute('href', '/login');
+    });
+
+    test('Login Form Submission', async ({ page }) => {
+        await page.getByRole('textbox', { name: 'Email' }).click();
+        await page.getByRole('textbox', { name: 'Email' }).fill('vselva@gmail.com');
+        await page.getByRole('textbox', { name: 'Password' }).click();
+        await page.getByRole('textbox', { name: 'Password' }).fill('Admin@123');
+        await page.getByTestId('rememberMe').check();
+        await page.getByRole('button', { name: 'Login' }).click();
+        await expect(page).toHaveURL('/dashboard');
+    });
+
+    test('Login Form Submission with Invalid Credentials', async ({ page }) => {
+        await page.getByRole('textbox', { name: 'Email' }).click();
+        await page.getByRole('textbox', { name: 'Email' }).fill('vselva@gmail.com');
+        await page.getByRole('textbox', { name: 'Password' }).click();
+        await page.getByRole('textbox', { name: 'Password' }).fill('1234');
+        await page.getByTestId('rememberMe').check();
+        await page.getByRole('button', { name: 'Login' }).click();
+        await page.getByText('Invalid Credentials').click({
+            button: 'right'
+        });
+    });
+
+    test('Login Form Submission with Empty Fields', async ({ page }) => {
+        await page.getByRole('button', { name: 'Login' }).click();
+        await page.getByText('User not found').click();
     });
 });
