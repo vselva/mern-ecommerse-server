@@ -1,9 +1,9 @@
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
-const orderRoutes = require('./routes/orderRoutes');
-const productRoutes = require('./routes/productRoutes');
-const profileRoutes = require('./routes/profileRoutes');
-const userRoutes = require('./routes/userRoutes');
+
+// swagger spec for documenting the API
+// with node/express the modules used are: swagger-ui-express and swagger-jsdoc
+// OpenAPI 3.0 is the evolution of Swagger 2.0.
 
 const options = {
     definition: {

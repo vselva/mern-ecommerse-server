@@ -79,7 +79,7 @@ const login = async (req, res) => {
         { expiresIn: '1h' }
     );
 
-    res.json({token});
+    res.status(200).json({token});
 }
 
 // function to logout a user

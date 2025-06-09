@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // pre middleware
+// hasing password before saving to the database
+// using bcryptjs - 
+// step1: generate a salt
+// step2: hash the password with the salt
 UserSchema.pre('save', async function (next) {
     try {
         const salt = await bcrypt.genSalt(10);
