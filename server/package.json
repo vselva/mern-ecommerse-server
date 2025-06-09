@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon api-server.js",
     "start-debug": "nodemon --inspect api-server.js",
+    "start-debug-brk": "nodemon --inspect-brk api-server.js"
   },
   "repository": {
     "type": "git",
