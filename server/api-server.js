@@ -10,6 +10,10 @@ const NODE_ENV = process.env.NODE_ENV;
 const express = require('express');
 const app = express();
 
+// swagger
+const { swaggerUi, swaggerSpec } = require("./swagger");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // middleware to parase json requests 
 app.use(express.json());
 
@@ -39,4 +43,5 @@ app.use('/api', orderRoutes);
 // Listen to port 8000 for incoming requests
 app.listen(PORT, () => {
     console.log('App running on port ' + PORT);
+    console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

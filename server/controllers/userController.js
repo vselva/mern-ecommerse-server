@@ -23,6 +23,41 @@ const register = async (req, res) => {
     }
 }
 
+/**
+ * @swagger
+ * /auth/login/:
+ *   post:
+ *     summary: User login
+ *     description: Login a user with email and password
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email address
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for authenticated user
+ *       401:
+ *         description: Unauthorized, invalid credentials
+ *       500:
+ *         description: Internal server error
+ */
 const login = async (req, res) => {
     const { email, password } = req.body;
     const signInUser = await User.findOne({email});
