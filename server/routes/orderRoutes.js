@@ -1,4 +1,4 @@
-// Get Router 
+// Get Router
 const express = require('express');
 const router = express.Router();
 
@@ -10,7 +10,7 @@ const orderController = require('../controllers/orderController');
 
 // Order APIs
 
-/** 
+/**
  * @swagger
  * /orders:
  *      get:

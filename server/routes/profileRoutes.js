@@ -1,11 +1,11 @@
 // get controllers
 const profileController = require('../controllers/profileController');
 
-// get router 
+// get router
 const express = require('express');
 const router = express.Router();
 
-// get Profile Model 
+// get Profile Model
 const Profile = require('../models/Profile');
 
 // get authenticateJwtToken
@@ -20,7 +20,11 @@ connectMongoDB();
 router.get('/profiles', authenticateJwtToken, profileController.getProfiles);
 
 // Read a Profile
-router.get('/profiles/:userId', authenticateJwtToken, profileController.getProfileById);
+router.get(
+  '/profiles/:userId',
+  authenticateJwtToken,
+  profileController.getProfileById
+);
 
 // Write a Profile
 router.post('/profiles', authenticateJwtToken, profileController.createProfile);
@@ -29,8 +33,16 @@ router.post('/profiles', authenticateJwtToken, profileController.createProfile);
 router.put('/profiles/', authenticateJwtToken, profileController.putProfile);
 
 // Update Profile (Do not Overwrite)
-router.patch('/profiles/', authenticateJwtToken, profileController.patchProfile);
+router.patch(
+  '/profiles/',
+  authenticateJwtToken,
+  profileController.patchProfile
+);
 
-router.delete('/profiles/:profileId', authenticateJwtToken, profileController.deleteProfile);
+router.delete(
+  '/profiles/:profileId',
+  authenticateJwtToken,
+  profileController.deleteProfile
+);
 
 module.exports = router;

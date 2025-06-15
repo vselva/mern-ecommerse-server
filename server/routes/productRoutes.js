@@ -9,9 +9,25 @@ const productController = require('../controllers/productController');
 
 router.get('/products', authenticateJwtToken, productController.getProducts);
 router.post('/products', authenticateJwtToken, productController.createProduct);
-router.get('/products/:id', authenticateJwtToken, productController.getProductById);
-router.put('/products/:id', authenticateJwtToken, productController.updateProduct);
-router.patch('/products/:id', authenticateJwtToken, productController.patchProduct);
-router.delete('/products/:id', authenticateJwtToken, productController.deleteProduct);
+router.get(
+  '/products/:id',
+  authenticateJwtToken,
+  productController.getProductById
+);
+router.put(
+  '/products/:id',
+  authenticateJwtToken,
+  productController.updateProduct
+);
+router.patch(
+  '/products/:id',
+  authenticateJwtToken,
+  productController.patchProduct
+);
+router.delete(
+  '/products/:id',
+  authenticateJwtToken,
+  productController.deleteProduct
+);
 
 module.exports = router;
