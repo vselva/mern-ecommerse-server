@@ -1,4 +1,4 @@
-// Get environmental variables 
+// Get environmental variables
 const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -10,36 +10,37 @@ const NODE_ENV = process.env.NODE_ENV;
 const express = require('express');
 const app = express();
 
-// helmet 
+// helmet
 const helmet = require('helmet');
 app.use(helmet());
 
 // disable 'x-powered-by' header for security - this header can reveal information about the server
 if (NODE_ENV === 'production') {
-    app.use(helmet.hidePoweredBy());
+  app.use(helmet.hidePoweredBy());
 }
 
 // swagger
-const { swaggerUi, swaggerSpec } = require("./swagger");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const { swaggerUi, swaggerSpec } = require('./swagger');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// middleware to parase json requests 
+// middleware to parase json requests
 app.use(express.json({ limit: '10kb' })); // limit the size of JSON payloads to 10kb
 
 // middleware to parse url-encoded requests
 app.use(express.urlencoded({ extended: true, limit: '10kb' })); // limit the size of URL-encoded payloads to 10kb
 
-// middlware for csurf 
+// middlware for csurf
 // const csurf = require('csurf');
 // app.use(csurf());
 
-
 // cors
 const cors = require('cors');
-app.use(cors({
+app.use(
+  cors({
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
-}));
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+  })
+);
 
 // Get Profile Routes
 const profileRoutes = require('./routes/profileRoutes');
@@ -59,6 +60,6 @@ app.use('/api', orderRoutes);
 
 // Listen to port 8000 for incoming requests
 app.listen(PORT, () => {
-    console.log('App running on port ' + PORT);
-    console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
+  console.log('App running on port ' + PORT);
+  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });
