@@ -9,9 +9,18 @@ dotenv.config();
 const JWT_SECRET_CODE = process.env.JWT_SECRET_CODE;
 
 const User = require('../models/User');
+const { validationResult } = require('express-validator');
 
 const register = async (req, res) => {
     try {
+        // Validate request body
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {S
+            console.log('Validation errors: ', errors);
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { email, password } = req.body;
         // const newUser = await User.create({email, password});
         const newUser = new User({ email, password});
