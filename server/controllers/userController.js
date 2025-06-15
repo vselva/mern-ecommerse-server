@@ -17,7 +17,6 @@ const register = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      S;
       console.log('Validation errors: ', errors);
       return res.status(400).json({ errors: errors.array() });
     }
@@ -99,7 +98,7 @@ const logout = (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET_CODE, (err, user, next) => {
+    jwt.verify(token, JWT_SECRET_CODE, (err) => {
       if (err) {
         console.log('Error in JWT Token verification. Error: ' + err);
         return res.status(403).json({ error: 'Invalid Token' });

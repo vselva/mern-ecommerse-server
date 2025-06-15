@@ -2,8 +2,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI;
-const JWT_SECRET_CODE = process.env.JWT_SECRET_CODE;
 const NODE_ENV = process.env.NODE_ENV;
 
 // express module

@@ -6,14 +6,13 @@ const express = require('express');
 const router = express.Router();
 
 // get Profile Model
-const Profile = require('../models/Profile');
+// const Profile = require('../models/Profile');
 
 // get authenticateJwtToken
 const authenticateJwtToken = require('../middleware/jwtAuth');
 
 // connect to database
 const connectMongoDB = require('../config/db');
-const mongoose = require('mongoose');
 connectMongoDB();
 
 // Reas Profiles
