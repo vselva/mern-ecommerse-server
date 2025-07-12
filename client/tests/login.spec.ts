@@ -38,6 +38,9 @@ test.describe('Login Page Tests', () => {
         await page.getByTestId('rememberMe').check();
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page).toHaveURL('/dashboard');
+        await expect(page.getByText('12 in stock')).toBeVisible();
+        await expect(page.getByText('Welcome to Dashboard Page!')).toBeVisible();
+        //await expect(page.locator('xpath=//*[@id="root"]/div/div/div/form/button')).toBeVisible();
     });
 
     test('Login Form Submission with Invalid Credentials', async ({ page }) => {
